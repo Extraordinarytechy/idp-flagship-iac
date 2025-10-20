@@ -1,0 +1,22 @@
+# Local Terraform variables
+*.tfvars
+*.tfvars.json
+
+# Local Terraform state
+*.tfstate
+*.tfstate.*
+
+# Local provider binaries and modules
+.terraform/
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Terraform CLI configuration files
+.terraformrc
+terraform.rc
+
+# OS-specific files
+.DS_Store
+Thumbs.db
