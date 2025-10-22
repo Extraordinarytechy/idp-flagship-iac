@@ -5,6 +5,7 @@
 data "aws_iam_policy_document" "assume_role_with_oidc" {
   statement {
     effect = "Allow"
+    actions = ["sts:AssumeRoleWithWebIdentity"]
 
     principals {
       type        = "Federated"
@@ -53,6 +54,7 @@ data "aws_caller_identity" "current" {}
 data "aws_iam_policy_document" "github_actions_assume_role" {
   statement {
     effect = "Allow"
+    actions = ["sts:AssumeRoleWithWebIdentity"]
 
     principals {
       type        = "Federated"
