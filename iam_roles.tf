@@ -99,7 +99,10 @@ resource "aws_iam_role_policy" "ecr_push_policy" {
           "ecr:PutImage",
           "ecr:InitiateLayerUpload",
           "ecr:UploadLayerPart",
-          "ecr:CompleteLayerUpload"
+          "ecr:CompleteLayerUpload",
+          "ecr:DescribeImages",
+          "ecr:BatchGetImage",
+          "ecr:BatchDeleteImage"
         ],
         Resource = aws_ecr_repository.app.arn 
       }
