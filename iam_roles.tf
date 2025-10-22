@@ -4,7 +4,7 @@
 
 data "aws_iam_policy_document" "assume_role_with_oidc" {
   statement {
-    effect = "Allow"
+    effect  = "Allow"
     actions = ["sts:AssumeRoleWithWebIdentity"]
 
     principals {
@@ -53,8 +53,8 @@ data "aws_caller_identity" "current" {}
 
 data "aws_iam_policy_document" "github_actions_assume_role" {
   statement {
-    effect = "Allow"
-    actions = ["sts:AssumeRoleWithWebIdentity"]
+    effect  = "Allow"
+    actions = ["sts:AssumeRoleWithWebIdentity"] 
 
     principals {
       type        = "Federated"
@@ -64,6 +64,7 @@ data "aws_iam_policy_document" "github_actions_assume_role" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
+     
       values   = ["repo:Extraordinarytechy/idp-flagship-app:*"]
     }
   }
@@ -74,6 +75,7 @@ resource "aws_iam_role" "github_actions_role" {
   assume_role_policy = data.aws_iam_policy_document.github_actions_assume_role.json
 }
 
+# --- POLICY BLOCK ---
 resource "aws_iam_role_policy" "ecr_push_policy" {
   name = "${var.cluster_name}-ecr-push-policy"
   role = aws_iam_role.github_actions_role.id
@@ -82,17 +84,26 @@ resource "aws_iam_role_policy" "ecr_push_policy" {
     Version = "2012-10-17",
     Statement = [
       {
+        # Statement 1: Allow GetAuthorizationToken on ALL resources
         Effect   = "Allow",
         Action   = [
-          "ecr:GetAuthorizationToken",
+          "ecr:GetAuthorizationToken"
+        ],
+        Resource = "*" # This action requires a wildcard resource
+      },
+      {
+        # Statement 2: Allow other ECR actions ONLY on the specific repo
+        Effect   = "Allow",
+        Action   = [
           "ecr:BatchCheckLayerAvailability",
           "ecr:PutImage",
           "ecr:InitiateLayerUpload",
           "ecr:UploadLayerPart",
           "ecr:CompleteLayerUpload"
         ],
-        Resource = aws_ecr_repository.app.arn
+        Resource = aws_ecr_repository.app.arn 
       }
     ]
   })
 }
+# --- END 
