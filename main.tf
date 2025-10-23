@@ -47,6 +47,7 @@ module "eks" {
   
   cluster_name    = "${var.cluster_name}-cluster"
   cluster_version = "1.28"
+  cluster_endpoint_public_access = true
   enable_irsa = true
 
   cluster_timeouts = {
