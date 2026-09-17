@@ -28,3 +28,9 @@ variable "db_allocated_storage" {
   description = "The allocated storage for the RDS database."
   type        = number
 }
+
+variable "db_username" {
+  description = "Master username for the RDS database. The password is generated and managed by AWS Secrets Manager."
+  type        = string
+  default     = "dbadmin"
+}
