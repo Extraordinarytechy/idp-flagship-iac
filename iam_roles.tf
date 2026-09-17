@@ -33,8 +33,8 @@ resource "aws_iam_role_policy" "rds_snapshot_policy" {
     Version = "2012-10-17",
     Statement = [
       {
-        Effect   = "Allow",
-        Action   = [
+        Effect = "Allow",
+        Action = [
           "rds:CopyDBSnapshot",
           "rds:DescribeDBSnapshots",
           "rds:DescribeDBInstances"
@@ -54,7 +54,7 @@ data "aws_caller_identity" "current" {}
 data "aws_iam_policy_document" "github_actions_assume_role" {
   statement {
     effect  = "Allow"
-    actions = ["sts:AssumeRoleWithWebIdentity"] 
+    actions = ["sts:AssumeRoleWithWebIdentity"]
 
     principals {
       type        = "Federated"
@@ -64,8 +64,8 @@ data "aws_iam_policy_document" "github_actions_assume_role" {
     condition {
       test     = "StringLike"
       variable = "token.actions.githubusercontent.com:sub"
-     
-      values   = ["repo:Extraordinarytechy/idp-flagship-app:*"]
+
+      values = ["repo:Extraordinarytechy/idp-flagship-app:*"]
     }
   }
 }
@@ -85,16 +85,16 @@ resource "aws_iam_role_policy" "ecr_push_policy" {
     Statement = [
       {
         # Statement 1: Allow GetAuthorizationToken on ALL resources
-        Effect   = "Allow",
-        Action   = [
+        Effect = "Allow",
+        Action = [
           "ecr:GetAuthorizationToken"
         ],
         Resource = "*" # This action requires a wildcard resource
       },
       {
         # Statement 2: Allow other ECR actions ONLY on the specific repo
-        Effect   = "Allow",
-        Action   = [
+        Effect = "Allow",
+        Action = [
           "ecr:BatchCheckLayerAvailability",
           "ecr:PutImage",
           "ecr:InitiateLayerUpload",
@@ -104,7 +104,7 @@ resource "aws_iam_role_policy" "ecr_push_policy" {
           "ecr:BatchGetImage",
           "ecr:BatchDeleteImage"
         ],
-        Resource = aws_ecr_repository.app.arn 
+        Resource = aws_ecr_repository.app.arn
       }
     ]
   })
